@@ -1,0 +1,54 @@
+{
+  "name": "velllife-job-portal",
+  "version": "1.0.0",
+  "description": "A comprehensive job portal for IT professionals, connecting job seekers with employers",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "job-portal",
+    "it-jobs",
+    "react",
+    "vite",
+    "tailwindcss",
+    "employment",
+    "career"
+  ],
+  "author": "VellLife Team",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^6.28.0",
+    "axios": "^1.7.9",
+    "@headlessui/react": "^2.1.1",
+    "@heroicons/react": "^2.1.5",
+    "tailwindcss": "^3.4.17",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "eslint": "^9.29.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "vite": "^7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/velllife/job-portal-frontend"
+  },
+  "bugs": {
+    "url": "https://github.com/velllife/job-portal-frontend/issues"
+  },
+  "homepage": "https://velllife-job-portal.vercel.app"
+}
