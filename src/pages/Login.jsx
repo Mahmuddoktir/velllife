@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
@@ -15,6 +15,18 @@ const Login = () => {
   
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get the return URL from location state
+  const from = location.state?.from?.pathname || '/';
+
+  useEffect(() => {
+    // Show success message if coming from registration
+    if (location.state?.message) {
+      // You could add a success message display here
+      console.log(location.state.message);
+    }
+  }, [location]);
 
   const handleChange = (e) => {
     setFormData({
@@ -32,19 +44,24 @@ const Login = () => {
       const result = await login(formData.email, formData.password, formData.userType);
       
       if (result.success) {
-        // Redirect based on user type
-        switch (formData.userType) {
-          case 'employer':
-            navigate('/employer/dashboard');
-            break;
-          case 'jobseeker':
-            navigate('/jobseeker/dashboard');
-            break;
-          case 'admin':
-            navigate('/admin/dashboard');
-            break;
-          default:
-            navigate('/');
+        // Redirect to the intended page or appropriate dashboard
+        if (from !== '/') {
+          navigate(from, { replace: true });
+        } else {
+          // Redirect based on user type
+          switch (formData.userType) {
+            case 'employer':
+              navigate('/employer/dashboard');
+              break;
+            case 'jobseeker':
+              navigate('/jobseeker/dashboard');
+              break;
+            case 'admin':
+              navigate('/admin/dashboard');
+              break;
+            default:
+              navigate('/');
+          }
         }
       } else {
         setError(result.error || 'Login failed. Please try again.');

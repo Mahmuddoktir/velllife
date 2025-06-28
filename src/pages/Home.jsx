@@ -7,10 +7,16 @@ import {
   ChartBarIcon,
   ShieldCheckIcon
 } from '@heroicons/react/24/outline';
+import ApiTest from '../components/ApiTest';
 
 const Home = () => {
   return (
     <div className="space-y-16">
+      {/* API Test Section - Temporary */}
+      <section className="py-8">
+        <ApiTest />
+      </section>
+
       {/* Hero Section */}
       <section className="text-center py-20 bg-gradient-to-br from-primary-50 to-blue-50 rounded-3xl">
         <div className="max-w-4xl mx-auto px-4">

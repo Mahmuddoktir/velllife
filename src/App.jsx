@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import JobListings from './pages/JobListings';
 import JobDetails from './pages/JobDetails';
@@ -24,13 +25,48 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/jobs" element={<JobListings />} />
               <Route path="/jobs/:id" element={<JobDetails />} />
-              <Route path="/employer/dashboard" element={<EmployerDashboard />} />
-              <Route path="/jobseeker/dashboard" element={<JobSeekerDashboard />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route 
+                path="/employer/dashboard" 
+                element={
+                  <ProtectedRoute allowedUserTypes={['employer']}>
+                    <EmployerDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/jobseeker/dashboard" 
+                element={
+                  <ProtectedRoute allowedUserTypes={['jobseeker']}>
+                    <JobSeekerDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/dashboard" 
+                element={
+                  <ProtectedRoute allowedUserTypes={['admin']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/post-job" element={<PostJob />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route 
+                path="/post-job" 
+                element={
+                  <ProtectedRoute allowedUserTypes={['employer']}>
+                    <PostJob />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/profile" 
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </main>
         </div>

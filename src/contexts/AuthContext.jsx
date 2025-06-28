@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { authAPI } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -25,25 +26,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, userType) => {
     try {
-      // Mock API call - replace with actual API endpoint
-      const response = await fetch('https://job-portal-production-c0a1.up.railway.app/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, userType }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const data = await response.json();
+      const data = await authAPI.login({ email, password, userType });
+      
       const userData = {
         id: data.user.id,
         email: data.user.email,
         name: data.user.name,
-        userType: userType, // 'employer', 'jobseeker', or 'admin'
+        userType: data.user.userType || userType,
         token: data.token,
       };
 
@@ -58,20 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      // Mock API call - replace with actual API endpoint
-      const response = await fetch('https://job-portal-production-c0a1.up.railway.app/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Registration failed');
-      }
-
-      const data = await response.json();
+      const data = await authAPI.register(userData);
       return { success: true, data };
     } catch (error) {
       console.error('Registration error:', error);
