@@ -1,22 +1,16 @@
-import { Link } from 'react-router-dom';
-import { 
-  BriefcaseIcon, 
-  BuildingOfficeIcon, 
+import { Link } from "react-router-dom";
+import {
+  BriefcaseIcon,
+  BuildingOfficeIcon,
   UserGroupIcon,
   MagnifyingGlassIcon,
   ChartBarIcon,
-  ShieldCheckIcon
-} from '@heroicons/react/24/outline';
-import ApiTest from '../components/ApiTest';
+  ShieldCheckIcon,
+} from "@heroicons/react/24/outline";
 
 const Home = () => {
   return (
     <div className="space-y-16">
-      {/* API Test Section - Temporary */}
-      <section className="py-8">
-        <ApiTest />
-      </section>
-
       {/* Hero Section */}
       <section className="text-center py-20 bg-gradient-to-br from-primary-50 to-blue-50 rounded-3xl">
         <div className="max-w-4xl mx-auto px-4">
@@ -25,8 +19,9 @@ const Home = () => {
             <span className="text-primary-600"> IT</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Connect with top employers and discover opportunities that match your skills and career goals. 
-            Whether you're a job seeker or an employer, VellLife Jobs is your gateway to success.
+            Connect with top employers and discover opportunities that match
+            your skills and career goals. Whether you're a job seeker or an
+            employer, VellLife Jobs is your gateway to success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -36,10 +31,7 @@ const Home = () => {
               <MagnifyingGlassIcon className="h-5 w-5 mr-2" />
               Find Jobs
             </Link>
-            <Link
-              to="/register"
-              className="btn-secondary text-lg px-8 py-3"
-            >
+            <Link to="/register" className="btn-secondary text-lg px-8 py-3">
               Get Started
             </Link>
           </div>
@@ -53,7 +45,8 @@ const Home = () => {
             Why Choose VellLife Jobs?
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            We provide a comprehensive platform for both job seekers and employers in the IT industry.
+            We provide a comprehensive platform for both job seekers and
+            employers in the IT industry.
           </p>
         </div>
 
@@ -66,7 +59,8 @@ const Home = () => {
               For Job Seekers
             </h3>
             <p className="text-gray-600">
-              Upload your resume, browse thousands of IT job opportunities, and apply with just one click.
+              Upload your resume, browse thousands of IT job opportunities, and
+              apply with just one click.
             </p>
           </div>
 
@@ -78,7 +72,8 @@ const Home = () => {
               For Employers
             </h3>
             <p className="text-gray-600">
-              Post job listings, manage applications, and find the perfect candidates for your team.
+              Post job listings, manage applications, and find the perfect
+              candidates for your team.
             </p>
           </div>
 
@@ -90,7 +85,8 @@ const Home = () => {
               Secure & Reliable
             </h3>
             <p className="text-gray-600">
-              Your data is protected with industry-standard security measures and privacy controls.
+              Your data is protected with industry-standard security measures
+              and privacy controls.
             </p>
           </div>
         </div>
@@ -104,7 +100,9 @@ const Home = () => {
             <div className="text-gray-600">Active Jobs</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-primary-600 mb-2">1000+</div>
+            <div className="text-3xl font-bold text-primary-600 mb-2">
+              1000+
+            </div>
             <div className="text-gray-600">Job Seekers</div>
           </div>
           <div>
@@ -124,7 +122,8 @@ const Home = () => {
           Ready to Take the Next Step?
         </h2>
         <p className="text-xl mb-8 opacity-90">
-          Join thousands of professionals who have found their dream jobs through VellLife Jobs.
+          Join thousands of professionals who have found their dream jobs
+          through VellLife Jobs.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
@@ -145,4 +144,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;
