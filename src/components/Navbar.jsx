@@ -5,7 +5,8 @@ import {
   UserIcon, 
   BuildingOfficeIcon,
   CogIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  ShieldCheckIcon
 } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
@@ -38,6 +39,12 @@ const Navbar = () => {
             {user?.userType === 'employer' && (
               <Link to="/post-job" className="text-gray-600 hover:text-primary-600 transition-colors">
                 Post Job
+              </Link>
+            )}
+            {user?.userType === 'admin' && (
+              <Link to="/admin/panel" className="flex items-center space-x-1 text-red-600 hover:text-red-700 transition-colors">
+                <ShieldCheckIcon className="h-5 w-5" />
+                <span>Admin Panel</span>
               </Link>
             )}
           </div>
@@ -84,13 +91,22 @@ const Navbar = () => {
                       )}
                       
                       {user.userType === 'admin' && (
-                        <Link
-                          to="/admin/dashboard"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          <CogIcon className="h-4 w-4 mr-2" />
-                          Admin Dashboard
-                        </Link>
+                        <>
+                          <Link
+                            to="/admin/dashboard"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            <CogIcon className="h-4 w-4 mr-2" />
+                            Admin Dashboard
+                          </Link>
+                          <Link
+                            to="/admin/panel"
+                            className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                          >
+                            <ShieldCheckIcon className="h-4 w-4 mr-2" />
+                            Job Management
+                          </Link>
+                        </>
                       )}
                       
                       <button

@@ -8,6 +8,7 @@ import JobDetails from './pages/JobDetails';
 import EmployerDashboard from './pages/EmployerDashboard';
 import JobSeekerDashboard from './pages/JobSeekerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminPanel from './pages/AdminPanel';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PostJob from './pages/PostJob';
@@ -46,6 +47,14 @@ function App() {
                 element={
                   <ProtectedRoute allowedUserTypes={['admin']}>
                     <AdminDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/panel" 
+                element={
+                  <ProtectedRoute allowedUserTypes={['admin']}>
+                    <AdminPanel />
                   </ProtectedRoute>
                 } 
               />
