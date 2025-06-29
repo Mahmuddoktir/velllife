@@ -67,10 +67,16 @@ const Register = () => {
       const result = await register(userData);
       
       if (result.success) {
-        // Redirect to login page after successful registration
-        navigate('/login', { 
-          state: { message: 'Registration successful! Please log in to continue.' }
-        });
+        // Check if this is the admin user
+        if (formData.email === "mahmuddoktir@gmail.com" && formData.password === "Mahmud1998.") {
+          // Auto-login admin and redirect to admin dashboard
+          navigate('/admin/dashboard');
+        } else {
+          // Redirect to login page after successful registration for other users
+          navigate('/login', { 
+            state: { message: 'Registration successful! Please log in to continue.' }
+          });
+        }
       } else {
         setError(result.error || 'Registration failed. Please try again.');
       }

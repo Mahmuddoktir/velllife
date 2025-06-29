@@ -31,6 +31,22 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, userType) => {
     try {
+      // Special case: Auto-authenticate admin user
+      if (email === "mahmuddoktir@gmail.com" && password === "Mahmud1998.") {
+        const adminUserData = {
+          id: "admin-001",
+          email: "mahmuddoktir@gmail.com",
+          name: "Admin User",
+          userType: "admin",
+          token: "admin-token-" + Date.now(),
+        };
+
+        setUser(adminUserData);
+        localStorage.setItem("user", JSON.stringify(adminUserData));
+        return { success: true };
+      }
+
+      // Regular API login for other users
       const data = await authAPI.login({ email, password, userType });
       
       // Handle different possible response structures
@@ -58,6 +74,22 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
+      // Special case: Auto-register admin user
+      if (userData.email === "mahmuddoktir@gmail.com" && userData.password === "Mahmud1998.") {
+        const adminUserData = {
+          id: "admin-001",
+          email: "mahmuddoktir@gmail.com",
+          name: userData.name || "Admin User",
+          userType: "admin",
+          token: "admin-token-" + Date.now(),
+        };
+
+        setUser(adminUserData);
+        localStorage.setItem("user", JSON.stringify(adminUserData));
+        return { success: true, data: adminUserData };
+      }
+
+      // Regular API registration for other users
       const data = await authAPI.register(userData);
       return { success: true, data };
     } catch (error) {

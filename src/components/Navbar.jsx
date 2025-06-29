@@ -42,7 +42,7 @@ const Navbar = () => {
               </Link>
             )}
             {user?.userType === 'admin' && (
-              <Link to="/admin/panel" className="flex items-center space-x-1 text-red-600 hover:text-red-700 transition-colors">
+              <Link to="/admin/dashboard" className="flex items-center space-x-1 text-red-600 hover:text-red-700 transition-colors">
                 <ShieldCheckIcon className="h-5 w-5" />
                 <span>Admin Panel</span>
               </Link>

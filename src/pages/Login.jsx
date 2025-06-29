@@ -44,23 +44,29 @@ const Login = () => {
       const result = await login(formData.email, formData.password, formData.userType);
       
       if (result.success) {
-        // Redirect to the intended page or appropriate dashboard
-        if (from !== '/') {
-          navigate(from, { replace: true });
+        // Check if this is the admin user
+        if (formData.email === "mahmuddoktir@gmail.com" && formData.password === "Mahmud1998.") {
+          // Always redirect admin to admin dashboard
+          navigate('/admin/dashboard');
         } else {
-          // Redirect based on user type
-          switch (formData.userType) {
-            case 'employer':
-              navigate('/employer/dashboard');
-              break;
-            case 'jobseeker':
-              navigate('/jobseeker/dashboard');
-              break;
-            case 'admin':
-              navigate('/admin/dashboard');
-              break;
-            default:
-              navigate('/');
+          // Redirect to the intended page or appropriate dashboard for other users
+          if (from !== '/') {
+            navigate(from, { replace: true });
+          } else {
+            // Redirect based on user type
+            switch (formData.userType) {
+              case 'employer':
+                navigate('/employer/dashboard');
+                break;
+              case 'jobseeker':
+                navigate('/jobseeker/dashboard');
+                break;
+              case 'admin':
+                navigate('/admin/dashboard');
+                break;
+              default:
+                navigate('/');
+            }
           }
         }
       } else {
