@@ -1,44 +1,38 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    userType: 'jobseeker',
-    company: '',
-    phone: ''
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "jobseeker",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const validateForm = () => {
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return false;
     }
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return false;
-    }
-    if (formData.userType === 'employer' && !formData.company) {
-      setError('Company name is required for employers');
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters long");
       return false;
     }
     return true;
@@ -47,7 +41,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     if (!validateForm()) {
       setLoading(false);
@@ -56,32 +50,25 @@ const Register = () => {
 
     try {
       const userData = {
-        name: formData.name,
+        fullName: formData.fullName,
         email: formData.email,
         password: formData.password,
-        userType: formData.userType,
-        company: formData.company,
-        phone: formData.phone
+        role: formData.role,
       };
 
       const result = await register(userData);
-      
+
       if (result.success) {
-        // Check if this is the admin user
-        if (formData.email === "mahmuddoktir@gmail.com" && formData.password === "Mahmud1998.") {
-          // Auto-login admin and redirect to admin dashboard
-          navigate('/admin/dashboard');
-        } else {
-          // Redirect to login page after successful registration for other users
-          navigate('/login', { 
-            state: { message: 'Registration successful! Please log in to continue.' }
-          });
-        }
+        navigate("/login", {
+          state: {
+            message: "Registration successful! Please log in to continue.",
+          },
+        });
       } else {
-        setError(result.error || 'Registration failed. Please try again.');
+        setError(result.error || "Registration failed. Please try again.");
       }
     } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -95,7 +82,7 @@ const Register = () => {
             Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
+            Or{" "}
             <Link
               to="/login"
               className="font-medium text-primary-600 hover:text-primary-500"
@@ -104,7 +91,7 @@ const Register = () => {
             </Link>
           </p>
         </div>
-        
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             {/* User Type Selection */}
@@ -114,30 +101,34 @@ const Register = () => {
               </label>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { value: 'jobseeker', label: 'Job Seeker' },
-                  { value: 'employer', label: 'Employer' }
+                  { value: "jobseeker", label: "Job Seeker" },
+                  { value: "employer", label: "Employer" },
                 ].map((type) => (
                   <label
                     key={type.value}
                     className={`relative flex cursor-pointer rounded-lg border p-4 focus:outline-none ${
-                      formData.userType === type.value
-                        ? 'border-primary-500 bg-primary-50'
-                        : 'border-gray-300 bg-white'
+                      formData.role === type.value
+                        ? "border-primary-500 bg-primary-50"
+                        : "border-gray-300 bg-white"
                     }`}
                   >
                     <input
                       type="radio"
-                      name="userType"
+                      name="role"
                       value={type.value}
-                      checked={formData.userType === type.value}
+                      checked={formData.role === type.value}
                       onChange={handleChange}
                       className="sr-only"
                     />
                     <span className="flex flex-1">
                       <span className="flex flex-col">
-                        <span className={`block text-sm font-medium ${
-                          formData.userType === type.value ? 'text-primary-900' : 'text-gray-900'
-                        }`}>
+                        <span
+                          className={`block text-sm font-medium ${
+                            formData.role === type.value
+                              ? "text-primary-900"
+                              : "text-gray-900"
+                          }`}
+                        >
                           {type.label}
                         </span>
                       </span>
@@ -149,16 +140,19 @@ const Register = () => {
 
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Full Name
               </label>
               <input
-                id="name"
-                name="name"
+                id="fullName"
+                name="fullName"
                 type="text"
                 autoComplete="name"
                 required
-                value={formData.name}
+                value={formData.fullName}
                 onChange={handleChange}
                 className="input-field mt-1"
                 placeholder="Enter your full name"
@@ -167,7 +161,10 @@ const Register = () => {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <input
@@ -184,9 +181,12 @@ const Register = () => {
             </div>
 
             {/* Company (for employers) */}
-            {formData.userType === 'employer' && (
+            {formData.role === "employer" && (
               <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="company"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Company Name
                 </label>
                 <input
@@ -204,7 +204,10 @@ const Register = () => {
 
             {/* Phone */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Phone Number
               </label>
               <input
@@ -221,14 +224,17 @@ const Register = () => {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <div className="relative mt-1">
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.password}
@@ -252,14 +258,17 @@ const Register = () => {
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirm Password
               </label>
               <div className="relative mt-1">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={formData.confirmPassword}
@@ -295,17 +304,23 @@ const Register = () => {
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading ? "Creating account..." : "Create account"}
             </button>
           </div>
 
           <div className="text-center text-sm text-gray-600">
-            By creating an account, you agree to our{' '}
-            <Link to="/terms" className="text-primary-600 hover:text-primary-500">
+            By creating an account, you agree to our{" "}
+            <Link
+              to="/terms"
+              className="text-primary-600 hover:text-primary-500"
+            >
               Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link to="/privacy" className="text-primary-600 hover:text-primary-500">
+            </Link>{" "}
+            and{" "}
+            <Link
+              to="/privacy"
+              className="text-primary-600 hover:text-primary-500"
+            >
               Privacy Policy
             </Link>
           </div>
@@ -315,4 +330,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

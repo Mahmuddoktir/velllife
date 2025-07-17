@@ -1,155 +1,109 @@
-# VellLife Job Portal Frontend
+# VellLife Job Portal
 
-A comprehensive job portal frontend for IT professionals, built with React and integrated with a backend API.
+A comprehensive job portal for IT professionals, connecting job seekers with employers.
 
-## Features
+## 🚀 Features
 
-- **User Authentication**: Login and registration with role-based access (Job Seeker, Employer, Admin)
-- **Protected Routes**: Role-based route protection and automatic redirects
-- **Modern UI**: Built with Tailwind CSS and Heroicons
-- **API Integration**: Fully integrated with backend APIs
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
+- **User Authentication**: Secure login and registration for job seekers, employers, and admins
+- **Job Listings**: Browse and search for available positions
+- **Job Posting**: Employers can post new job opportunities
+- **Job Applications**: Job seekers can apply for positions
+- **User Dashboards**: Separate dashboards for different user types
+- **Protected Routes**: Role-based access control
+- **API Integration**: Full integration with the backend API
 
-## Backend API Integration
+## 🔧 Recent Fixes
 
-The frontend is integrated with the following backend APIs:
+### Authentication Issues Fixed
+- ✅ Fixed AuthContext to use consistent API utility functions
+- ✅ Added proper loading states and error handling
+- ✅ Fixed function signature mismatches between components and context
+- ✅ Updated login/register to use correct API endpoints
 
-### Authentication Endpoints
-- **Login**: `POST https://job-portal-production-c0a1.up.railway.app/api/v1/users/log-in`
-- **Registration**: `POST https://job-portal-production-c0a1.up.railway.app/api/v1/users/sign-up`
+### API Communication Issues Fixed
+- ✅ Replaced mock data with actual API calls
+- ✅ Added comprehensive error handling for all API requests
+- ✅ Created proper API utility functions for jobs, users, and authentication
+- ✅ Fixed field name mismatches between frontend and API
 
-### API Configuration
-- Base URL: `https://job-portal-production-c0a1.up.railway.app/api/v1`
-- Authentication: Bearer token in Authorization header
-- Content-Type: application/json
+### Component Issues Fixed
+- ✅ Updated JobListings to fetch real data from API
+- ✅ Fixed PostJob component to properly create jobs
+- ✅ Enhanced JobDetails with proper API integration
+- ✅ Added ProtectedRoute component for secure navigation
+- ✅ Fixed styling inconsistencies
 
-## Getting Started
+## 🛠️ Installation
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd velllife-job-portal
-```
-
+1. Clone the repository
 2. Install dependencies:
-```bash
-npm install
-```
-
+   ```bash
+   npm install
+   ```
 3. Start the development server:
-```bash
-npm run dev
+   ```bash
+   npm run dev
+   ```
+
+## 📱 Usage
+
+### For Job Seekers
+1. Register/Login as a job seeker
+2. Browse available jobs on the `/jobs` page
+3. Click on job details to view full information
+4. Apply for positions you're interested in
+5. View your applications in your dashboard
+
+### For Employers
+1. Register/Login as an employer
+2. Post new job opportunities using the "Post Job" feature
+3. Manage your posted jobs in your dashboard
+4. View applications from job seekers
+
+### For Admins
+1. Login with admin credentials
+2. Access admin dashboard for system management
+3. Monitor all jobs and applications
+
+## 🔗 API Endpoints
+
+The application communicates with the following API endpoints:
+
+- **Authentication**: `/api/v1/users/log-in`, `/api/v1/users/sign-up`
+- **Jobs**: `/api/v1/jobs` (GET, POST, PUT, DELETE)
+- **Applications**: `/api/v1/jobs/:id/apply`
+- **User Profile**: `/api/v1/users/profile`
+
+## 🎨 Styling
+
+The application uses:
+- **Tailwind CSS** for styling
+- **Heroicons** for icons
+- **Responsive design** for mobile and desktop
+
+## 🔒 Security Features
+
+- JWT token-based authentication
+- Protected routes based on user roles
+- Secure API communication with proper headers
+- Input validation and sanitization
+
+## 🐛 Debugging
+
+Use the DebugInfo component to monitor:
+- Authentication state
+- User information
+- Local storage data
+- API connection status
+
+## 📝 Environment Variables
+
+Make sure your API base URL is correctly set in `src/utils/api.js`:
+```javascript
+const API_BASE_URL = 'https://job-portal-production-c0a1.up.railway.app/api/v1';
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
-
-## Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── Navbar.jsx      # Navigation component
-│   ├── ProtectedRoute.jsx # Route protection component
-│   └── ApiTest.jsx     # API testing component (temporary)
-├── contexts/           # React contexts
-│   └── AuthContext.jsx # Authentication context
-├── pages/              # Page components
-│   ├── Home.jsx        # Landing page
-│   ├── Login.jsx       # Login page
-│   ├── Register.jsx    # Registration page
-│   ├── JobListings.jsx # Job listings page
-│   ├── JobDetails.jsx  # Job details page
-│   ├── EmployerDashboard.jsx # Employer dashboard
-│   ├── JobSeekerDashboard.jsx # Job seeker dashboard
-│   ├── AdminDashboard.jsx # Admin dashboard
-│   ├── PostJob.jsx     # Post job page
-│   └── Profile.jsx     # User profile page
-├── utils/              # Utility functions
-│   └── api.js          # API configuration and helpers
-├── App.jsx             # Main app component
-└── main.jsx           # App entry point
-```
-
-## API Integration Details
-
-### Authentication Flow
-
-1. **Registration**: Users can register as either Job Seekers or Employers
-2. **Login**: Users authenticate with email, password, and user type
-3. **Token Storage**: JWT tokens are stored in localStorage
-4. **Protected Routes**: Routes are protected based on user type and authentication status
-
-### API Utility Functions
-
-The `src/utils/api.js` file provides:
-
-- `apiCall()`: Generic API call function with error handling
-- `authAPI.login()`: Login API wrapper
-- `authAPI.register()`: Registration API wrapper
-- `getAuthToken()`: Get stored authentication token
-- `getHeaders()`: Get request headers with authentication
-
-### Error Handling
-
-The frontend includes comprehensive error handling:
-
-- Network errors are caught and displayed to users
-- API error messages are extracted and shown
-- Loading states are managed for better UX
-- Form validation prevents invalid submissions
-
-## User Types and Permissions
-
-### Job Seeker
-- Can browse job listings
-- Can apply to jobs
-- Access to job seeker dashboard
-- Profile management
-
-### Employer
-- Can post job listings
-- Can manage job applications
-- Access to employer dashboard
-- Company profile management
-
-### Admin
-- Full system access
-- User management
-- System analytics
-- Content moderation
-
-## Testing the API Integration
-
-A temporary API test component is included on the home page that allows you to:
-
-1. Test the login API with sample credentials
-2. Test the registration API with sample data
-3. View API responses and error messages
-
-To remove the test component, simply remove the `<ApiTest />` component from `src/pages/Home.jsx`.
-
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-## Technologies Used
-
-- **React 19** - UI library
-- **React Router DOM** - Client-side routing
-- **Tailwind CSS** - Utility-first CSS framework
-- **Heroicons** - Icon library
-- **Vite** - Build tool and dev server
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -157,10 +111,6 @@ To remove the test component, simply remove the `<ApiTest />` component from `sr
 4. Test thoroughly
 5. Submit a pull request
 
-## License
+## 📄 License
 
 MIT License - see LICENSE file for details
-
-## Support
-
-For support and questions, please contact the VellLife team or create an issue in the repository.

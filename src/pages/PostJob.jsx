@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jobAPI } from '../utils/api';
 
 const PostJob = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const PostJob = () => {
     benefits: ''
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,17 +24,55 @@ const PostJob = () => {
     });
   };
 
+  const validateForm = () => {
+    if (!formData.title.trim()) {
+      setError('Job title is required');
+      return false;
+    }
+    if (!formData.company.trim()) {
+      setError('Company name is required');
+      return false;
+    }
+    if (!formData.location.trim()) {
+      setError('Location is required');
+      return false;
+    }
+    if (!formData.description.trim()) {
+      setError('Job description is required');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Mock API call - replace with actual API call
-      console.log('Posting job:', formData);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-      navigate('/employer/dashboard');
+      const jobData = {
+        title: formData.title.trim(),
+        company: formData.company.trim(),
+        location: formData.location.trim(),
+        type: formData.type,
+        salary: formData.salary.trim() || undefined,
+        description: formData.description.trim(),
+        requirements: formData.requirements.trim() || undefined,
+        benefits: formData.benefits.trim() || undefined,
+      };
+
+      await jobAPI.createJob(jobData);
+      navigate('/employer/dashboard', { 
+        state: { message: 'Job posted successfully!' }
+      });
     } catch (error) {
       console.error('Error posting job:', error);
+      setError(error.message || 'Failed to post job. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -42,8 +82,15 @@ const PostJob = () => {
     <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">Post a New Job</h1>
       
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+          {error}
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="card">
+        <div className="bg-white p-6 rounded-lg shadow">
           <div className="space-y-4">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -56,7 +103,7 @@ const PostJob = () => {
                 required
                 value={formData.title}
                 onChange={handleChange}
-                className="input-field mt-1"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 placeholder="e.g., Senior React Developer"
               />
             </div>
@@ -72,7 +119,7 @@ const PostJob = () => {
                 required
                 value={formData.company}
                 onChange={handleChange}
-                className="input-field mt-1"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 placeholder="Your company name"
               />
             </div>
@@ -89,7 +136,7 @@ const PostJob = () => {
                   required
                   value={formData.location}
                   onChange={handleChange}
-                  className="input-field mt-1"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                   placeholder="e.g., New York, NY or Remote"
                 />
               </div>
@@ -104,7 +151,7 @@ const PostJob = () => {
                   required
                   value={formData.type}
                   onChange={handleChange}
-                  className="input-field mt-1"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 >
                   <option value="Full-time">Full-time</option>
                   <option value="Part-time">Part-time</option>
@@ -124,7 +171,7 @@ const PostJob = () => {
                 name="salary"
                 value={formData.salary}
                 onChange={handleChange}
-                className="input-field mt-1"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 placeholder="e.g., $80,000 - $120,000"
               />
             </div>
@@ -140,7 +187,7 @@ const PostJob = () => {
                 rows={6}
                 value={formData.description}
                 onChange={handleChange}
-                className="input-field mt-1"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 placeholder="Describe the role, responsibilities, and what you're looking for..."
               />
             </div>
@@ -155,7 +202,7 @@ const PostJob = () => {
                 rows={4}
                 value={formData.requirements}
                 onChange={handleChange}
-                className="input-field mt-1"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 placeholder="List the key requirements and qualifications..."
               />
             </div>
@@ -170,7 +217,7 @@ const PostJob = () => {
                 rows={4}
                 value={formData.benefits}
                 onChange={handleChange}
-                className="input-field mt-1"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent mt-1"
                 placeholder="List the benefits and perks..."
               />
             </div>
@@ -181,14 +228,14 @@ const PostJob = () => {
           <button
             type="button"
             onClick={() => navigate('/employer/dashboard')}
-            className="btn-secondary"
+            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
           >
             {loading ? 'Posting...' : 'Post Job'}
           </button>
